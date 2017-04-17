@@ -1,0 +1,17 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(readr)
+
+```
+```{r}
+foo = read_csv("yelp_academic_dataset_business_train")
+bar = read_csv("yelp_academic_dataset_checkin_train")
+View(foo)
+View(bar)
+unlist(bar[1,3])
+```
