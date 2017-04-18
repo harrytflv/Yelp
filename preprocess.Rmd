@@ -13,11 +13,16 @@ library(dplyr)
 library(plyr)
 require(doMC)
 registerDoMC(cores=4)
-```
 
+```
+###Read 
 ```{r}
 foo = read_csv("yelp_academic_dataset_business_train.csv")
-# bar = read_csv("yelp_academic_dataset_checkin_train.csv")
+```
+
+###Unlist categories
+```{r}
+# Find all the categories
 cats = foo$categories %>% 
   strsplit(", ") %>%
   unlist() %>% 
@@ -27,65 +32,35 @@ cats = foo$categories %>%
   unlist() %>% 
   unique()
 cats = cats[!is.na(cats)]
-for (i in 1:length(cats)){
-  foo[cats[i]] = 0
-}
 for (cat in cats){
-  for (j in 1:ncol(foo)){
-    if (length(grep(cat, unlist(foo[j, "categories"]))) > 0){
-      foo[j, cat] = 1
-    }
-  }
+  foo[cat] = str_detect(foo$categories, cat)
 }
 ```
+###Unlist attributes
 ```{r}
-getnames<-function(x,recursive){
-
-    nametree <- function(x, parent_name, depth) {
-        if (length(x) == 0) 
-            return(character(0))
-        x_names <- names(x)
-        if (is.null(x_names)){ 
-            x_names <- seq_along(x)
-            x_names <- paste(parent_name, x_names, sep = "")
-        }else{ 
-            x_names[x_names==""] <- seq_along(x)[x_names==""]
-            x_names <- paste(parent_name, x_names, sep = "")
-        }
-        if (!is.list(x) || (!recursive && depth >= 1L)) 
-            return(x_names)
-        x_names <- paste(x_names, ".", sep = "")
-        lapply(seq_len(length(x)), function(i) nametree(x[[i]], 
-            x_names[i], depth + 1L))
-    }
-    nametree(x, "", 0L)
-}
-
-flatten<-function(x) {
-    dumnames<-unlist(getnames(x,T))
-    dumnames<-gsub("(*.)\\.1","\\1",dumnames)
-    repeat {
-        x <- do.call(.Primitive("c"), x)
-        if(!any(vapply(x, is.list, logical(1)))){
-           names(x)<-dumnames
-           return(x)
-        }
-    }
-}
-
 to_df = function(attr){
   if (is.na(attr)){
-    return(data.frame())
+    return(data.frame("NA_Column" = c(0)))
   }
   json = attr
   json = gsub("'([a-zA-Z0-9_-]+)'", '\\1', json)
   json = gsub("([a-zA-Z0-9_-]+)", '"\\1"', json)
   json = gsub("\\[", "{", json)
   json = gsub("\\]", "}", json)
-  print(json)
-  json_file = fromJSON(json)
-  data.frame(flatten(json_file))
+  json_list = fromJSON(json)
+  while(any(vapply(json_list, function(x){length(x) > 1}, logical(1)))){
+    json_list = do.call(.Primitive("c"), json_list)
+  }
+  json_list
+  data.frame(t(data.frame(json_list)))
 }
-bar = mclapply(foo$attributes[1:4], to_df)
+bar = mclapply(foo$attributes, to_df)
 attrs = do.call(rbind.fill, bar)
+attrs = select(attrs, -NA_Column)
+foo = cbind(foo, attrs)
+```
+
+###Write
+```{r}
+write.csv(foo, file = "foo.csv")
 ```
