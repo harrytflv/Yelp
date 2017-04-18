@@ -1,0 +1,91 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(readr)
+library(stringr)
+library(tidyr)
+require(RJSONIO)
+library(dplyr)
+library(plyr)
+require(doMC)
+registerDoMC(cores=4)
+```
+
+```{r}
+foo = read_csv("yelp_academic_dataset_business_train.csv")
+# bar = read_csv("yelp_academic_dataset_checkin_train.csv")
+cats = foo$categories %>% 
+  strsplit(", ") %>%
+  unlist() %>% 
+  strsplit("\\[") %>% 
+  unlist() %>% 
+  strsplit("\\]") %>% 
+  unlist() %>% 
+  unique()
+cats = cats[!is.na(cats)]
+for (i in 1:length(cats)){
+  foo[cats[i]] = 0
+}
+for (cat in cats){
+  for (j in 1:ncol(foo)){
+    if (length(grep(cat, unlist(foo[j, "categories"]))) > 0){
+      foo[j, cat] = 1
+    }
+  }
+}
+```
+```{r}
+getnames<-function(x,recursive){
+
+    nametree <- function(x, parent_name, depth) {
+        if (length(x) == 0) 
+            return(character(0))
+        x_names <- names(x)
+        if (is.null(x_names)){ 
+            x_names <- seq_along(x)
+            x_names <- paste(parent_name, x_names, sep = "")
+        }else{ 
+            x_names[x_names==""] <- seq_along(x)[x_names==""]
+            x_names <- paste(parent_name, x_names, sep = "")
+        }
+        if (!is.list(x) || (!recursive && depth >= 1L)) 
+            return(x_names)
+        x_names <- paste(x_names, ".", sep = "")
+        lapply(seq_len(length(x)), function(i) nametree(x[[i]], 
+            x_names[i], depth + 1L))
+    }
+    nametree(x, "", 0L)
+}
+
+flatten<-function(x) {
+    dumnames<-unlist(getnames(x,T))
+    dumnames<-gsub("(*.)\\.1","\\1",dumnames)
+    repeat {
+        x <- do.call(.Primitive("c"), x)
+        if(!any(vapply(x, is.list, logical(1)))){
+           names(x)<-dumnames
+           return(x)
+        }
+    }
+}
+
+to_df = function(attr){
+  if (is.na(attr)){
+    return(data.frame())
+  }
+  json = attr
+  json = gsub("'([a-zA-Z0-9_-]+)'", '\\1', json)
+  json = gsub("([a-zA-Z0-9_-]+)", '"\\1"', json)
+  json = gsub("\\[", "{", json)
+  json = gsub("\\]", "}", json)
+  print(json)
+  json_file = fromJSON(json)
+  data.frame(flatten(json_file))
+}
+bar = mclapply(foo$attributes[1:4], to_df)
+attrs = do.call(rbind.fill, bar)
+```
