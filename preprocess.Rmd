@@ -62,5 +62,5 @@ foo = cbind(foo, attrs)
 
 ###Write
 ```{r}
-write.csv(foo, file = "foo.csv")
+write.csv(foo, file = "extended_business_train.csv")
 ```
