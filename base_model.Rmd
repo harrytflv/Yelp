@@ -1,0 +1,37 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(readr)
+require(doMC)
+registerDoMC(cores=4)
+library(LiblineaR)
+library(glmnet) 
+```
+
+```{r}
+business = read_csv("extended_business_train.csv")
+business_n = business %>% 
+  dplyr::select(-X1) %>% 
+  dplyr::select(-X1_1) %>% 
+  dplyr::select(-business_id) %>% 
+  dplyr::select(-name) %>% 
+  dplyr::select(-neighborhood) %>% 
+  dplyr::select(-address) %>% 
+  dplyr::select(-city) %>% 
+  dplyr::select(-state) %>% 
+  dplyr::select(-postal_code) %>% 
+  dplyr::select(-review_count) %>% 
+  dplyr::select(-attributes) %>% 
+  dplyr::select(-categories) %>% 
+  dplyr::select(-hours) %>% 
+  dplyr::select(-type)
+
+
+```
+```{r}
+```

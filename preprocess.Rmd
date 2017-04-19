@@ -59,7 +59,12 @@ attrs = do.call(rbind.fill, bar)
 attrs = select(attrs, -NA_Column)
 foo = cbind(foo, attrs)
 ```
-
+###Convert Strings to ints
+```{r}
+###These are string columns
+c = sapply(business_n, class)
+business_n[,as.vector(which(c == "character"))]
+```
 ###Write
 ```{r}
 write.csv(foo, file = "extended_business_train.csv")
