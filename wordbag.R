@@ -1,6 +1,6 @@
 library(NLP)
 library(tm)
-setwd("~/154")
+setwd("~/154data")
 
 
 # Read data and check dimension
