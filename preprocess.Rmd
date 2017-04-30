@@ -16,6 +16,11 @@ registerDoMC(cores=4)
 library(zoo)
 library(rARPACK)
 
+
+
+
+
+
 ```
 ###Read 
 ```{r}
