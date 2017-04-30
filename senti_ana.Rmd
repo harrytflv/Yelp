@@ -1,0 +1,39 @@
+---
+title: "Sen"
+author: "Wenjun Zeng"
+date: "4/30/2017"
+output: ''
+---
+
+```{r setup, include=FALSE}
+library(readr)
+library(dplyr)
+
+review_train <- read.csv('yelp_academic_dataset_review_train.csv')
+
+reviews = review_train
+
+library(tidytext)
+
+review_words <- reviews %>%
+  select(review_id, business_id, stars, text) %>%
+  unnest_tokens(word, text) %>%
+  filter(!word %in% stop_words$word,
+         str_detect(word, "^[a-z']+$"))
+
+review_words
+
+AFINN <- sentiments %>%
+  filter(lexicon == "AFINN") %>%
+  select(word, afinn_score = score)
+
+AFINN
+
+reviews_sentiment <- review_words %>%
+  inner_join(AFINN, by = "word") %>%
+  group_by(review_id, stars) %>%
+  summarize(sentiment = mean(afinn_score))
+
+reviews_sentiment
+
+```

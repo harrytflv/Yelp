@@ -174,14 +174,19 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkcilcbmxpYnJhcnkoc3RyaW5ncilcbmxpYnJhcnkodGlkeXIpXG5yZXF1aXJlKFJKU09OSU8pXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkcilcbmxpYnJhcnkoc3RyaW5ncilcbmxpYnJhcnkodGlkeXIpXG5saWJyYXJ5KGpzb25saXRlKVxuYGBgIn0= -->
 <pre class="r"><code>library(readr)
 library(stringr)
 library(tidyr)
-require(RJSONIO)</code></pre>
+library(jsonlite)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTG9hZGluZyByZXF1aXJlZCBwYWNrYWdlOiBSSlNPTklPXG4ifQ== -->
-<pre><code>Loading required package: RJSONIO</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYanNvbmxpdGXigJlcblxuVGhlIGZvbGxvd2luZyBvYmplY3QgaXMgbWFza2VkIF9ieV8g4oCYLkdsb2JhbEVuduKAmTpcblxuICAgIGZsYXR0ZW5cbiJ9 -->
+<pre><code>
+Attaching package: ‘jsonlite’
+
+The following object is masked _by_ ‘.GlobalEnv’:
+
+    flatten</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShkcGx5cilcbmBgYCJ9 -->
 <pre class="r"><code>library(dplyr)</code></pre>
@@ -201,12 +206,12 @@ The following objects are masked from ‘package:base’:
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShwbHlyKVxuYGBgIn0= -->
 <pre class="r"><code>library(plyr)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbllvdSBoYXZlIGxvYWRlZCBwbHlyIGFmdGVyIGRwbHlyIC0gdGhpcyBpcyBsaWtlbHkgdG8gY2F1c2UgcHJvYmxlbXMuXG5JZiB5b3UgbmVlZCBmdW5jdGlvbnMgZnJvbSBib3RoIHBseXIgYW5kIGRwbHlyLCBwbGVhc2UgbG9hZCBwbHlyIGZpcnN0LCB0aGVuIGRwbHlyOlxubGlicmFyeShwbHlyKTsgbGlicmFyeShkcGx5cilcbi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tXG5cbkF0dGFjaGluZyBwYWNrYWdlOiDigJhwbHly4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBfYnlfIOKAmC5HbG9iYWxFbnbigJk6XG5cbiAgICAuXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20g4oCYcGFja2FnZTpkcGx5cuKAmTpcblxuICAgIGFycmFuZ2UsIGNvdW50LCBkZXNjLCBmYWlsd2l0aCwgaWQsIG11dGF0ZSwgcmVuYW1lLCBzdW1tYXJpc2UsIHN1bW1hcml6ZVxuIn0= -->
-<pre><code>-----------------------------------------------------------------------------------------------------------------------
+<!-- rnb-output-begin eyJkYXRhIjoiLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuWW91IGhhdmUgbG9hZGVkIHBseXIgYWZ0ZXIgZHBseXIgLSB0aGlzIGlzIGxpa2VseSB0byBjYXVzZSBwcm9ibGVtcy5cbklmIHlvdSBuZWVkIGZ1bmN0aW9ucyBmcm9tIGJvdGggcGx5ciBhbmQgZHBseXIsIHBsZWFzZSBsb2FkIHBseXIgZmlyc3QsIHRoZW4gZHBseXI6XG5saWJyYXJ5KHBseXIpOyBsaWJyYXJ5KGRwbHlyKVxuLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYcGx5cuKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdCBpcyBtYXNrZWQgX2J5XyDigJguR2xvYmFsRW524oCZOlxuXG4gICAgLlxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6ZHBseXLigJk6XG5cbiAgICBhcnJhbmdlLCBjb3VudCwgZGVzYywgZmFpbHdpdGgsIGlkLCBtdXRhdGUsIHJlbmFtZSwgc3VtbWFyaXNlLCBzdW1tYXJpemVcbiJ9 -->
+<pre><code>-------------------------------------------------------------------------------------------
 You have loaded plyr after dplyr - this is likely to cause problems.
 If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
 library(plyr); library(dplyr)
------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
 Attaching package: ‘plyr’
 
@@ -230,8 +235,20 @@ http://www.revolutionanalytics.com
 Loading required package: iterators
 Loading required package: parallel</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVnaXN0ZXJEb01DKGNvcmVzPTQpXG5gYGAifQ== -->
-<pre class="r"><code>registerDoMC(cores=4)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmVnaXN0ZXJEb01DKGNvcmVzPTQpXG5saWJyYXJ5KHpvbylcbmBgYCJ9 -->
+<pre class="r"><code>registerDoMC(cores=4)
+library(zoo)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYem9v4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0cyBhcmUgbWFza2VkIGZyb20g4oCYcGFja2FnZTpiYXNl4oCZOlxuXG4gICAgYXMuRGF0ZSwgYXMuRGF0ZS5udW1lcmljXG4ifQ== -->
+<pre><code>
+Attaching package: ‘zoo’
+
+The following objects are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyQVJQQUNLKVxuYGBgIn0= -->
+<pre class="r"><code>library(rARPACK)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -243,25 +260,25 @@ Loading required package: parallel</code></pre>
 <pre class="r"><code>foo = read_csv(&quot;yelp_academic_dataset_business_train.csv&quot;)
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTWlzc2luZyBjb2x1bW4gbmFtZXMgZmlsbGVkIGluOiAnWDEnIFsxXVBhcnNlZCB3aXRoIGNvbHVtbiBzcGVjaWZpY2F0aW9uOlxuY29scyhcbiAgWDEgPSBjb2xfaW50ZWdlcigpLFxuICBhZGRyZXNzID0gY29sX2NoYXJhY3RlcigpLFxuICBhdHRyaWJ1dGVzID0gY29sX2NoYXJhY3RlcigpLFxuICBidXNpbmVzc19pZCA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgY2F0ZWdvcmllcyA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgY2l0eSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgaG91cnMgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGlzX29wZW4gPSBjb2xfaW50ZWdlcigpLFxuICBsYXRpdHVkZSA9IGNvbF9kb3VibGUoKSxcbiAgbG9uZ2l0dWRlID0gY29sX2RvdWJsZSgpLFxuICBuYW1lID0gY29sX2NoYXJhY3RlcigpLFxuICBuZWlnaGJvcmhvb2QgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHBvc3RhbF9jb2RlID0gY29sX2NoYXJhY3RlcigpLFxuICByZXZpZXdfY291bnQgPSBjb2xfaW50ZWdlcigpLFxuICBzdGFycyA9IGNvbF9kb3VibGUoKSxcbiAgc3RhdGUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHR5cGUgPSBjb2xfY2hhcmFjdGVyKClcbilcbiJ9 -->
+<!-- rnb-output-begin eyJkYXRhIjoiTWlzc2luZyBjb2x1bW4gbmFtZXMgZmlsbGVkIGluOiAnWDEnIFsxXVBhcnNlZCB3aXRoIGNvbHVtbiBzcGVjaWZpY2F0aW9uOlxuY29scyhcbiAgWDEgPSBjb2xfaW50ZWdlcigpLFxuICBuZWlnaGJvcmhvb2QgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGJ1c2luZXNzX2lkID0gY29sX2NoYXJhY3RlcigpLFxuICBob3VycyA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgaXNfb3BlbiA9IGNvbF9pbnRlZ2VyKCksXG4gIGFkZHJlc3MgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGF0dHJpYnV0ZXMgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGNhdGVnb3JpZXMgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGNpdHkgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHJldmlld19jb3VudCA9IGNvbF9pbnRlZ2VyKCksXG4gIG5hbWUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIGxvbmdpdHVkZSA9IGNvbF9kb3VibGUoKSxcbiAgc3RhdGUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIHN0YXJzID0gY29sX2RvdWJsZSgpLFxuICBsYXRpdHVkZSA9IGNvbF9kb3VibGUoKSxcbiAgcG9zdGFsX2NvZGUgPSBjb2xfaW50ZWdlcigpLFxuICB0eXBlID0gY29sX2NoYXJhY3RlcigpXG4pXG4ifQ== -->
 <pre><code>Missing column names filled in: 'X1' [1]Parsed with column specification:
 cols(
   X1 = col_integer(),
-  address = col_character(),
-  attributes = col_character(),
+  neighborhood = col_character(),
   business_id = col_character(),
-  categories = col_character(),
-  city = col_character(),
   hours = col_character(),
   is_open = col_integer(),
-  latitude = col_double(),
-  longitude = col_double(),
-  name = col_character(),
-  neighborhood = col_character(),
-  postal_code = col_character(),
+  address = col_character(),
+  attributes = col_character(),
+  categories = col_character(),
+  city = col_character(),
   review_count = col_integer(),
-  stars = col_double(),
+  name = col_character(),
+  longitude = col_double(),
   state = col_character(),
+  stars = col_double(),
+  latitude = col_double(),
+  postal_code = col_integer(),
   type = col_character()
 )</code></pre>
 <!-- rnb-output-end -->
@@ -294,12 +311,41 @@ for (cat in cats){
 <h3>Unlist attributes</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGltKGF0dHJzKVxuXG5gYGAifQ== -->
-<pre class="r"><code>dim(attrs)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudG9fZGYgPSBmdW5jdGlvbihhdHRyKXtcbiAgaWYgKGlzLm5hKGF0dHIpKXtcbiAgICByZXR1cm4oZGF0YS5mcmFtZShcIk5BX0NvbHVtblwiID0gYygwKSkpXG4gIH1cbiAganNvbiA9IGF0dHJcbiAganNvbiA9IGdzdWIoXCInXCIsIFwiXCIsIGpzb24pXG4gIGpzb24gPSBnc3ViKCdcIicsIFwiXCIsIGpzb24pXG4gIGpzb24gPSBnc3ViKFwiKFthLXpBLVowLTlfLV0rKVwiLCAnXCJcXFxcMVwiJywganNvbilcbiAganNvbiA9IGdzdWIoXCJcXFxcW1wiLCBcIntcIiwganNvbilcbiAganNvbiA9IGdzdWIoXCJcXFxcXVwiLCBcIn1cIiwganNvbilcbiAganNvbl9saXN0ID0gZnJvbUpTT04oanNvbilcbiAgd2hpbGUoYW55KHZhcHBseShqc29uX2xpc3QsIGZ1bmN0aW9uKHgpe2xlbmd0aCh4KSA+IDF9LCBsb2dpY2FsKDEpKSkpe1xuICAgIGpzb25fbGlzdCA9IGRvLmNhbGwoLlByaW1pdGl2ZShcImNcIiksIGpzb25fbGlzdClcbiAgfVxuICBqc29uX2xpc3RcbiAgZGF0YS5mcmFtZShqc29uX2xpc3QpXG59XG5iYXIgPSBtY2xhcHBseShmb28kYXR0cmlidXRlcywgdG9fZGYpXG5hdHRycyA9IGRvLmNhbGwocmJpbmQuZmlsbCwgYmFyKVxuZm9vID0gY2JpbmQoZm9vLCBhdHRycylcbmBgYCJ9 -->
+<pre class="r"><code>to_df = function(attr){
+  if (is.na(attr)){
+    return(data.frame(&quot;NA_Column&quot; = c(0)))
+  }
+  json = attr
+  json = gsub(&quot;'&quot;, &quot;&quot;, json)
+  json = gsub('&quot;', &quot;&quot;, json)
+  json = gsub(&quot;([a-zA-Z0-9_-]+)&quot;, '&quot;\\1&quot;', json)
+  json = gsub(&quot;\\[&quot;, &quot;{&quot;, json)
+  json = gsub(&quot;\\]&quot;, &quot;}&quot;, json)
+  json_list = fromJSON(json)
+  while(any(vapply(json_list, function(x){length(x) &gt; 1}, logical(1)))){
+    json_list = do.call(.Primitive(&quot;c&quot;), json_list)
+  }
+  json_list
+  data.frame(json_list)
+}
+bar = mclapply(foo$attributes, to_df)
+attrs = do.call(rbind.fill, bar)
+foo = cbind(foo, attrs)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="convert-strings-to-ints" class="section level3">
+<h3>Convert Strings to ints</h3>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYyA9IHNhcHBseShidXNpbmVzc19uLCBjbGFzcylcblxuYGBgIn0= -->
+<pre class="r"><code>c = sapply(business_n, class)
 </code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDExNTI2MiAgICAgODFcbiJ9 -->
-<pre><code>[1] 115262     81</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gbGFwcGx5KFggPSBYLCBGVU4gPSBGVU4sIC4uLikgOiBvYmplY3QgJ2J1c2luZXNzX24nIG5vdCBmb3VuZFxuIn0= -->
+<pre><code>Error in lapply(X = X, FUN = FUN, ...) : object 'business_n' not found</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -309,9 +355,91 @@ for (cat in cats){
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXNlcl9yZXZpZXdzX3RyYWluID0gcmVhZF9jc3YoXCJ5ZWxwX2FjYWRlbWljX2RhdGFzZXRfcmV2aWV3X3RyYWluLmNzdlwiKVxudXNlcl9yZXZpZXdzX3Rlc3QgPSByZWFkX2NzdihcInllbHBfYWNhZGVtaWNfZGF0YXNldF9yZXZpZXdfdGVzdC5jc3ZcIilcbmBgYCJ9 -->
+<pre class="r"><code>user_reviews_train = read_csv(&quot;yelp_academic_dataset_review_train.csv&quot;)
+user_reviews_test = read_csv(&quot;yelp_academic_dataset_review_test.csv&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="validate" class="section level1">
+<h1>validate</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXNlcl9yZXZpZXdzID0gdXNlcl9yZXZpZXdzX3RyYWluXG5zYW1wbGVfaW5kZXggPSBzYW1wbGUobnJvdyh1c2VyX3Jldmlld3MpKVxudXNlcl9yZXZpZXdzID0gdXNlcl9yZXZpZXdzICU+JSBcbiAgc2VsZWN0KHVzZXJfaWQsIGJ1c2luZXNzX2lkLCBzdGFycykgJT4lIFxuICAuW3NhbXBsZV9pbmRleCxdXG5cbmxhYmVsID0gdXNlcl9yZXZpZXdzWzE6MjAwMDAsXCJzdGFyc1wiXVxuXG5tZWFuX3N0YXJzID0gbWVhbih1c2VyX3Jldmlld3MkXCJzdGFyc1wiWzIwMDAxOjExNjQ3NF0pXG5zZF9zdGFycyA9IHNkKHVzZXJfcmV2aWV3cyRcInN0YXJzXCJbMjAwMDE6MTE2NDc0XSlcbnVzZXJfcmV2aWV3c1ssXCJzdGFyc1wiXSA9ICh1c2VyX3Jldmlld3NbLFwic3RhcnNcIl0gLSBtZWFuX3N0YXJzKS9zZF9zdGFyc1xudXNlcl9yZXZpZXdzWzE6MjAwMDAsIFwic3RhcnNcIl0gPSAwXG5cbnVzZXJfcmV2aWV3c19tYXRyaXggPSBzcHJlYWQoZGF0YSA9IHVzZXJfcmV2aWV3cywga2V5ID0gYnVzaW5lc3NfaWQsIHZhbHVlID0gc3RhcnMsIGZpbGwgPSAwKVxubSA9IGFzLm1hdHJpeCh1c2VyX3Jldmlld3NfbWF0cml4WywyOm5jb2wodXNlcl9yZXZpZXdzX21hdHJpeCldKVxubV9zdmQgPSBzdmRzKG0sIDEwLCBudSA9IDEwLCBudiA9IDEwKVxudSA9IG1fc3ZkJHVcbmQgPSBkaWFnKG1fc3ZkJGQpXG52ID0gdChtX3N2ZCR2KVxuXG5tX2UgPSB1ICUqJSBkICUqJSB2XG50ZXN0X2luZGV4ID0gMToyMDAwMFxuZm9vPWZ1bmN0aW9uKHRpKXtcbiAgYmlkID0gdXNlcl9yZXZpZXdzJGJ1c2luZXNzX2lkW3RpXVxuICBjb2xfaW5kZXggPSB3aGljaChjb2xuYW1lcyh1c2VyX3Jldmlld3NfbWF0cml4KSA9PSBiaWQpIC0gMVxuICByb3dfaW5kZXggPSB3aGljaCh1c2VyX3Jldmlld3NfbWF0cml4JHVzZXJfaWQgPT0gdXNlcl9yZXZpZXdzJHVzZXJfaWRbdGldKVxuICBlc3RpbWF0ZSA9IG1fZVtyb3dfaW5kZXgsIGNvbF9pbmRleCAtIDFdXG4gIGVzdGltYXRlXG59XG5wcmVkID0gdW5saXN0KG1jbGFwcGx5KHRlc3RfaW5kZXgsIGZvbykpXG5tZWFuX3ByZWQgPSBtZWFuKHByZWQpXG5zZF9wcmVkID0gc2QocHJlZClcbihwcmVkIC0gbWVhbl9wcmVkKSAvIHNkX3ByZWQgKiBzZF9zdGFycyArIG1lYW5fc3RhcnNcbmBgYCJ9 -->
+<pre class="r"><code>user_reviews = user_reviews_train
+sample_index = sample(nrow(user_reviews))
+user_reviews = user_reviews %&gt;% 
+  select(user_id, business_id, stars) %&gt;% 
+  .[sample_index,]
+
+label = user_reviews[1:20000,&quot;stars&quot;]
+
+mean_stars = mean(user_reviews$&quot;stars&quot;[20001:116474])
+sd_stars = sd(user_reviews$&quot;stars&quot;[20001:116474])
+user_reviews[,&quot;stars&quot;] = (user_reviews[,&quot;stars&quot;] - mean_stars)/sd_stars
+user_reviews[1:20000, &quot;stars&quot;] = 0
+
+user_reviews_matrix = spread(data = user_reviews, key = business_id, value = stars, fill = 0)
+m = as.matrix(user_reviews_matrix[,2:ncol(user_reviews_matrix)])
+m_svd = svds(m, 10, nu = 10, nv = 10)
+u = m_svd$u
+d = diag(m_svd$d)
+v = t(m_svd$v)
+
+m_e = u %*% d %*% v
+test_index = 1:20000
+foo=function(ti){
+  bid = user_reviews$business_id[ti]
+  col_index = which(colnames(user_reviews_matrix) == bid) - 1
+  row_index = which(user_reviews_matrix$user_id == user_reviews$user_id[ti])
+  estimate = m_e[row_index, col_index - 1]
+  estimate
+}
+pred = unlist(mclapply(test_index, foo))
+mean_pred = mean(pred)
+sd_pred = sd(pred)
+(pred - mean_pred) / sd_pred * sd_stars + mean_stars</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="test" class="section level1">
+<h1>test</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudXNlcl9yZXZpZXdzX3Rlc3QgPSB1c2VyX3Jldmlld3NfdGVzdCAlPiUgbXV0YXRlKHN0YXJzID0gTkEpXG51c2VyX3Jldmlld3MgPSByYmluZCh1c2VyX3Jldmlld3NfdHJhaW4sIHVzZXJfcmV2aWV3c190ZXN0KVxudXNlcl9yZXZpZXdzID0gdXNlcl9yZXZpZXdzICU+JSBcbiAgc2VsZWN0KHVzZXJfaWQsIGJ1c2luZXNzX2lkLCBzdGFycykgJT4lIFxuICAuW3NhbXBsZV9pbmRleCxdXG51c2VyX3Jldmlld3NfbWF0cml4ID0gc3ByZWFkKGRhdGEgPSB1c2VyX3Jldmlld3MsIGtleSA9IGJ1c2luZXNzX2lkLCB2YWx1ZSA9IHN0YXJzKVxubSA9IGFzLm1hdHJpeCh1c2VyX3Jldmlld3NfbWF0cml4WywyOm5jb2wodXNlcl9yZXZpZXdzX21hdHJpeCldKVxubSA9IG5hLmZpbGwobSwgMClcbm0gPSBzdmQobSwgbnUgPSAxMDAsIG52ID0gMTAwKVxudSA9IG0kdVxuZCA9IGRpYWcobSRkWzE6MTAwXSlcbnYgPSB0KG0kdilcbm1fZSA9IHUgJSolIGQgJSolIHZcbnRlc3RfaW5kZXggPSBzYW1wbGVfaW5kZXhbc2FtcGxlX2luZGV4ID4gMTE2NDc0XVxuZm9vPWZ1bmN0aW9uKHRpKXtcbiAgYmlkID0gdXNlcl9yZXZpZXdzJGJ1c2luZXNzX2lkW3RpXVxuICBjb2xfaW5kZXggPSB3aGljaChjb2xuYW1lcyh1c2VyX3Jldmlld3NfbWF0cml4KSA9PSBiaWQpXG4gIHJvd19pbmRleCA9IHdoaWNoKHVzZXJfcmV2aWV3c19tYXRyaXgkdXNlcl9pZCA9PSB1c2VyX3Jldmlld3MkdXNlcl9pZFt0aV0pXG4gIGVzdGltYXRlID0gbV9lW3Jvd19pbmRleCwgY29sX2luZGV4IC0gMV1cbiAgZXN0aW1hdGVcbn1cbmZvbygxMjE0MDUpXG5wcmVkID0gbGFwcGx5KHRlc3RfaW5kZXgsIGZvbylcbmBgYCJ9 -->
+<pre class="r"><code>user_reviews_test = user_reviews_test %&gt;% mutate(stars = NA)
+user_reviews = rbind(user_reviews_train, user_reviews_test)
+user_reviews = user_reviews %&gt;% 
+  select(user_id, business_id, stars) %&gt;% 
+  .[sample_index,]
+user_reviews_matrix = spread(data = user_reviews, key = business_id, value = stars)
+m = as.matrix(user_reviews_matrix[,2:ncol(user_reviews_matrix)])
+m = na.fill(m, 0)
+m = svd(m, nu = 100, nv = 100)
+u = m$u
+d = diag(m$d[1:100])
+v = t(m$v)
+m_e = u %*% d %*% v
+test_index = sample_index[sample_index &gt; 116474]
+foo=function(ti){
+  bid = user_reviews$business_id[ti]
+  col_index = which(colnames(user_reviews_matrix) == bid)
+  row_index = which(user_reviews_matrix$user_id == user_reviews$user_id[ti])
+  estimate = m_e[row_index, col_index - 1]
+  estimate
+}
+foo(121405)
+pred = lapply(test_index, foo)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KHN0cmluZ3IpCmxpYnJhcnkodGlkeXIpCnJlcXVpcmUoUkpTT05JTykKbGlicmFyeShkcGx5cikKbGlicmFyeShwbHlyKQpyZXF1aXJlKGRvTUMpCnJlZ2lzdGVyRG9NQyhjb3Jlcz00KQoKYGBgCiMjI1JlYWQgCmBgYHtyfQpmb28gPSByZWFkX2NzdigieWVscF9hY2FkZW1pY19kYXRhc2V0X2J1c2luZXNzX3RyYWluLmNzdiIpCmBgYAoKIyMjVW5saXN0IGNhdGVnb3JpZXMKYGBge3J9CiMgRmluZCBhbGwgdGhlIGNhdGVnb3JpZXMKY2F0cyA9IGZvbyRjYXRlZ29yaWVzICU+JSAKICBzdHJzcGxpdCgiLCAiKSAlPiUKICB1bmxpc3QoKSAlPiUgCiAgc3Ryc3BsaXQoIlxcWyIpICU+JSAKICB1bmxpc3QoKSAlPiUgCiAgc3Ryc3BsaXQoIlxcXSIpICU+JSAKICB1bmxpc3QoKSAlPiUgCiAgdW5pcXVlKCkKY2F0cyA9IGNhdHNbIWlzLm5hKGNhdHMpXQpmb3IgKGNhdCBpbiBjYXRzKXsKICBmb29bY2F0XSA9IHN0cl9kZXRlY3QoZm9vJGNhdGVnb3JpZXMsIGNhdCkKfQpgYGAKIyMjVW5saXN0IGF0dHJpYnV0ZXMKYGBge3J9CnRvX2RmID0gZnVuY3Rpb24oYXR0cil7CiAgaWYgKGlzLm5hKGF0dHIpKXsKICAgIHJldHVybihkYXRhLmZyYW1lKCJOQV9Db2x1bW4iID0gYygwKSkpCiAgfQogIGpzb24gPSBhdHRyCiAganNvbiA9IGdzdWIoIicoW2EtekEtWjAtOV8tXSspJyIsICdcXDEnLCBqc29uKQogIGpzb24gPSBnc3ViKCIoW2EtekEtWjAtOV8tXSspIiwgJyJcXDEiJywganNvbikKICBqc29uID0gZ3N1YigiXFxbIiwgInsiLCBqc29uKQogIGpzb24gPSBnc3ViKCJcXF0iLCAifSIsIGpzb24pCiAganNvbl9saXN0ID0gZnJvbUpTT04oanNvbikKICB3aGlsZShhbnkodmFwcGx5KGpzb25fbGlzdCwgZnVuY3Rpb24oeCl7bGVuZ3RoKHgpID4gMX0sIGxvZ2ljYWwoMSkpKSl7CiAgICBqc29uX2xpc3QgPSBkby5jYWxsKC5QcmltaXRpdmUoImMiKSwganNvbl9saXN0KQogIH0KICBqc29uX2xpc3QKICBkYXRhLmZyYW1lKHQoZGF0YS5mcmFtZShqc29uX2xpc3QpKSkKfQpiYXIgPSBtY2xhcHBseShmb28kYXR0cmlidXRlcywgdG9fZGYpCmF0dHJzID0gZG8uY2FsbChyYmluZC5maWxsLCBiYXIpCmF0dHJzID0gc2VsZWN0KGF0dHJzLCAtTkFfQ29sdW1uKQpmb28gPSBjYmluZChmb28sIGF0dHJzKQpgYGAKCiMjI1dyaXRlCmBgYHtyfQp3cml0ZS5jc3YoZm9vLCBmaWxlID0gImV4dGVuZGVkX2J1c2luZXNzX3RyYWluLmNzdiIpCmBgYA==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKCmBgYHtyfQpsaWJyYXJ5KHJlYWRyKQpsaWJyYXJ5KHN0cmluZ3IpCmxpYnJhcnkodGlkeXIpCmxpYnJhcnkoanNvbmxpdGUpCmxpYnJhcnkoZHBseXIpCmxpYnJhcnkocGx5cikKcmVxdWlyZShkb01DKQpyZWdpc3RlckRvTUMoY29yZXM9NCkKbGlicmFyeSh6b28pCmxpYnJhcnkockFSUEFDSykKYGBgCiMjI1JlYWQgCmBgYHtyfQpmb28gPSByZWFkX2NzdigieWVscF9hY2FkZW1pY19kYXRhc2V0X2J1c2luZXNzX3RyYWluLmNzdiIpCmBgYAoKIyMjVW5saXN0IGNhdGVnb3JpZXMKYGBge3J9CiMgRmluZCBhbGwgdGhlIGNhdGVnb3JpZXMKY2F0cyA9IGZvbyRjYXRlZ29yaWVzICU+JSAKICBzdHJzcGxpdCgiLCAiKSAlPiUKICB1bmxpc3QoKSAlPiUgCiAgc3Ryc3BsaXQoIlxcWyIpICU+JSAKICB1bmxpc3QoKSAlPiUgCiAgc3Ryc3BsaXQoIlxcXSIpICU+JSAKICB1bmxpc3QoKSAlPiUgCiAgdW5pcXVlKCkKY2F0cyA9IGNhdHNbIWlzLm5hKGNhdHMpXQpmb3IgKGNhdCBpbiBjYXRzKXsKICBmb29bY2F0XSA9IHN0cl9kZXRlY3QoZm9vJGNhdGVnb3JpZXMsIGNhdCkKfQpgYGAKIyMjVW5saXN0IGF0dHJpYnV0ZXMKYGBge3J9CnRvX2RmID0gZnVuY3Rpb24oYXR0cil7CiAgaWYgKGlzLm5hKGF0dHIpKXsKICAgIHJldHVybihkYXRhLmZyYW1lKCJOQV9Db2x1bW4iID0gYygwKSkpCiAgfQogIGpzb24gPSBhdHRyCiAganNvbiA9IGdzdWIoIiciLCAiIiwganNvbikKICBqc29uID0gZ3N1YignIicsICIiLCBqc29uKQogIGpzb24gPSBnc3ViKCIoW2EtekEtWjAtOV8tXSspIiwgJyJcXDEiJywganNvbikKICBqc29uID0gZ3N1YigiXFxbIiwgInsiLCBqc29uKQogIGpzb24gPSBnc3ViKCJcXF0iLCAifSIsIGpzb24pCiAganNvbl9saXN0ID0gZnJvbUpTT04oanNvbikKICB3aGlsZShhbnkodmFwcGx5KGpzb25fbGlzdCwgZnVuY3Rpb24oeCl7bGVuZ3RoKHgpID4gMX0sIGxvZ2ljYWwoMSkpKSl7CiAgICBqc29uX2xpc3QgPSBkby5jYWxsKC5QcmltaXRpdmUoImMiKSwganNvbl9saXN0KQogIH0KICBqc29uX2xpc3QKICBkYXRhLmZyYW1lKGpzb25fbGlzdCkKfQpiYXIgPSBtY2xhcHBseShmb28kYXR0cmlidXRlcywgdG9fZGYpCmF0dHJzID0gZG8uY2FsbChyYmluZC5maWxsLCBiYXIpCmZvbyA9IGNiaW5kKGZvbywgYXR0cnMpCmBgYAojIyNDb252ZXJ0IFN0cmluZ3MgdG8gaW50cwpgYGB7cn0KIyAjIyNUaGVzZSBhcmUgc3RyaW5nIGNvbHVtbnMKIyBjID0gc2FwcGx5KGJ1c2luZXNzX24sIGNsYXNzKQojIGJ1c2luZXNzX25bLGFzLnZlY3Rvcih3aGljaChjID09ICJjaGFyYWN0ZXIiKSldCmBgYAojIyNXcml0ZQpgYGB7cn0Kd3JpdGUuY3N2KGZvbywgZmlsZSA9ICJleHRlbmRlZF9idXNpbmVzc190cmFpbi5jc3YiKQpgYGAKCmBgYHtyfQp1c2VyX3Jldmlld3NfdHJhaW4gPSByZWFkX2NzdigieWVscF9hY2FkZW1pY19kYXRhc2V0X3Jldmlld190cmFpbi5jc3YiKQp1c2VyX3Jldmlld3NfdGVzdCA9IHJlYWRfY3N2KCJ5ZWxwX2FjYWRlbWljX2RhdGFzZXRfcmV2aWV3X3Rlc3QuY3N2IikKYGBgCgojdmFsaWRhdGUKYGBge3J9CnVzZXJfcmV2aWV3cyA9IHVzZXJfcmV2aWV3c190cmFpbgpzYW1wbGVfaW5kZXggPSBzYW1wbGUobnJvdyh1c2VyX3Jldmlld3MpKQp1c2VyX3Jldmlld3MgPSB1c2VyX3Jldmlld3MgJT4lIAogIHNlbGVjdCh1c2VyX2lkLCBidXNpbmVzc19pZCwgc3RhcnMpICU+JSAKICAuW3NhbXBsZV9pbmRleCxdCgpsYWJlbCA9IHVzZXJfcmV2aWV3c1sxOjIwMDAwLCJzdGFycyJdCgptZWFuX3N0YXJzID0gbWVhbih1c2VyX3Jldmlld3MkInN0YXJzIlsyMDAwMToxMTY0NzRdKQpzZF9zdGFycyA9IHNkKHVzZXJfcmV2aWV3cyQic3RhcnMiWzIwMDAxOjExNjQ3NF0pCnVzZXJfcmV2aWV3c1ssInN0YXJzIl0gPSAodXNlcl9yZXZpZXdzWywic3RhcnMiXSAtIG1lYW5fc3RhcnMpL3NkX3N0YXJzCnVzZXJfcmV2aWV3c1sxOjIwMDAwLCAic3RhcnMiXSA9IDAKCnVzZXJfcmV2aWV3c19tYXRyaXggPSBzcHJlYWQoZGF0YSA9IHVzZXJfcmV2aWV3cywga2V5ID0gYnVzaW5lc3NfaWQsIHZhbHVlID0gc3RhcnMsIGZpbGwgPSAwKQptID0gYXMubWF0cml4KHVzZXJfcmV2aWV3c19tYXRyaXhbLDI6bmNvbCh1c2VyX3Jldmlld3NfbWF0cml4KV0pCm1fc3ZkID0gc3ZkcyhtLCAxMCwgbnUgPSAxMCwgbnYgPSAxMCkKdSA9IG1fc3ZkJHUKZCA9IGRpYWcobV9zdmQkZCkKdiA9IHQobV9zdmQkdikKCm1fZSA9IHUgJSolIGQgJSolIHYKdGVzdF9pbmRleCA9IDE6MjAwMDAKZm9vPWZ1bmN0aW9uKHRpKXsKICBiaWQgPSB1c2VyX3Jldmlld3MkYnVzaW5lc3NfaWRbdGldCiAgY29sX2luZGV4ID0gd2hpY2goY29sbmFtZXModXNlcl9yZXZpZXdzX21hdHJpeCkgPT0gYmlkKSAtIDEKICByb3dfaW5kZXggPSB3aGljaCh1c2VyX3Jldmlld3NfbWF0cml4JHVzZXJfaWQgPT0gdXNlcl9yZXZpZXdzJHVzZXJfaWRbdGldKQogIGVzdGltYXRlID0gbV9lW3Jvd19pbmRleCwgY29sX2luZGV4IC0gMV0KICBlc3RpbWF0ZQp9CnByZWQgPSB1bmxpc3QobWNsYXBwbHkodGVzdF9pbmRleCwgZm9vKSkKbWVhbl9wcmVkID0gbWVhbihwcmVkKQpzZF9wcmVkID0gc2QocHJlZCkKKHByZWQgLSBtZWFuX3ByZWQpIC8gc2RfcHJlZCAqIHNkX3N0YXJzICsgbWVhbl9zdGFycwpgYGAKCiN0ZXN0CmBgYHtyfQp1c2VyX3Jldmlld3NfdGVzdCA9IHVzZXJfcmV2aWV3c190ZXN0ICU+JSBtdXRhdGUoc3RhcnMgPSBOQSkKdXNlcl9yZXZpZXdzID0gcmJpbmQodXNlcl9yZXZpZXdzX3RyYWluLCB1c2VyX3Jldmlld3NfdGVzdCkKdXNlcl9yZXZpZXdzID0gdXNlcl9yZXZpZXdzICU+JSAKICBzZWxlY3QodXNlcl9pZCwgYnVzaW5lc3NfaWQsIHN0YXJzKSAlPiUgCiAgLltzYW1wbGVfaW5kZXgsXQp1c2VyX3Jldmlld3NfbWF0cml4ID0gc3ByZWFkKGRhdGEgPSB1c2VyX3Jldmlld3MsIGtleSA9IGJ1c2luZXNzX2lkLCB2YWx1ZSA9IHN0YXJzKQptID0gYXMubWF0cml4KHVzZXJfcmV2aWV3c19tYXRyaXhbLDI6bmNvbCh1c2VyX3Jldmlld3NfbWF0cml4KV0pCm0gPSBuYS5maWxsKG0sIDApCm0gPSBzdmQobSwgbnUgPSAxMDAsIG52ID0gMTAwKQp1ID0gbSR1CmQgPSBkaWFnKG0kZFsxOjEwMF0pCnYgPSB0KG0kdikKbV9lID0gdSAlKiUgZCAlKiUgdgp0ZXN0X2luZGV4ID0gc2FtcGxlX2luZGV4W3NhbXBsZV9pbmRleCA+IDExNjQ3NF0KZm9vPWZ1bmN0aW9uKHRpKXsKICBiaWQgPSB1c2VyX3Jldmlld3MkYnVzaW5lc3NfaWRbdGldCiAgY29sX2luZGV4ID0gd2hpY2goY29sbmFtZXModXNlcl9yZXZpZXdzX21hdHJpeCkgPT0gYmlkKQogIHJvd19pbmRleCA9IHdoaWNoKHVzZXJfcmV2aWV3c19tYXRyaXgkdXNlcl9pZCA9PSB1c2VyX3Jldmlld3MkdXNlcl9pZFt0aV0pCiAgZXN0aW1hdGUgPSBtX2Vbcm93X2luZGV4LCBjb2xfaW5kZXggLSAxXQogIGVzdGltYXRlCn0KZm9vKDEyMTQwNSkKcHJlZCA9IGxhcHBseSh0ZXN0X2luZGV4LCBmb28pCmBgYA==</div>
 
 
 
