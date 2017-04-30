@@ -57,7 +57,7 @@ words = all_words
 print('Data size', len(words))
 
 # Step 2: Build the dictionary and replace rare words with UNK token.
-vocabulary_size = 1000
+vocabulary_size = 30000
 
 def build_dataset(words, vocabulary_size):
   count = [['UNK', -1]]
@@ -174,50 +174,50 @@ tf.logging.set_verbosity(tf.logging.INFO)
 
 def cnn_model_fn(features, labels, mode):
   """Model function for CNN."""
-  
-  input_one_hot = tf.one_hot(indices=tf.cast(features, tf.int32), depth=1000)
-  input_one_hot = tf.reshape(input_one_hot, [-1,128,1,1000])
+
+  input_one_hot = tf.one_hot(indices=tf.cast(features, tf.int32), depth=30000)
+  input_one_hot = tf.reshape(input_one_hot, [-1,128,1,30000])
   conv1a = tf.layers.conv2d(
       inputs=input_one_hot,
-      filters=500,
+      filters=1000,
       kernel_size=[3,1],
       padding="same",
       activation=tf.nn.relu)
   conv1b = tf.layers.conv2d(
       inputs=input_one_hot,
-      filters=500,
+      filters=1000,
       kernel_size=[2,1],
       padding="same",
       activation=tf.nn.relu)
   conv1 = tf.concat([conv1a, conv1b], 1)
   pool1 = tf.layers.max_pooling2d(inputs=conv1, pool_size=[2, 1], strides=2)
-  pool1_flat = tf.reshape(pool1, [-1, 128*1*500])
+  pool1_flat = tf.reshape(pool1, [-1, 128*1*1000])
   dense = tf.layers.dense(inputs=pool1_flat, units=1024, activation=tf.nn.relu)
   dropout = tf.layers.dropout(
       inputs=dense, rate=0.4, training=mode == learn.ModeKeys.TRAIN)
   ratings = tf.layers.dense(inputs=dropout, units=1, activation=tf.nn.relu6)
-  
-  
+
+
   loss = None
   train_op = None
-  
+
   # Calculate Loss (for both TRAIN and EVAL modes)
   if mode != learn.ModeKeys.INFER:
     labels = tf.reshape(labels, [-1, 1])
     loss = tf.losses.mean_squared_error(labels=labels, predictions=ratings)
-    
-    
+
+
   def f(lr, gs):
     return tf.train.exponential_decay(lr, gs, 100, 0.85)
   # Configure the Training Op (for TRAIN mode)
-  if mode == learn.ModeKeys.TRAIN:   
+  if mode == learn.ModeKeys.TRAIN:
     train_op = tf.contrib.layers.optimize_loss(
         loss=loss,
         global_step=tf.contrib.framework.get_global_step(),
         learning_rate = 0.001,
         learning_rate_decay_fn=f,
         optimizer="SGD")
-  
+
   # Generate Predictions
   predictions = {
       "ratings": ratings
@@ -229,7 +229,7 @@ def cnn_model_fn(features, labels, mode):
 
 
 def main(unused_argv):
-  
+
   train_data = op[0:80000,]
   train_labels = np.array(s["stars"][0:80000])
   eval_data = op[80000:100000,]
@@ -522,6 +522,3 @@ tf.app.run()
 
 
 # In[ ]:
-
-
-
