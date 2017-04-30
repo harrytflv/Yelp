@@ -1,8 +1,10 @@
 library(NLP)
 library(tm)
+setwd("~/154final/Yelp")
 
 # Read data and check dimension
 review_train <- read.csv('yelp_academic_dataset_review_train.csv')
+#review_test <- read.csv('yelp_academic_dataset_review_test.csv')
 subset_index <- sample(c(1:length(review_train[,1])), nrow(review_train))
 review_train_subset <- review_train[subset_index,]
 reviews <- as.vector(review_train_subset$text)
@@ -37,13 +39,14 @@ removeSpace <- function(token){
 pasted_bi_grams <- lapply(bi_grams, removeSpace)
 pasted_bi_grams_corpus = Corpus(VectorSource(pasted_bi_grams))
 bi_grams_dtm = DocumentTermMatrix(pasted_bi_grams_corpus)
-
+dim(bi_grams_dtm)
 # Set the frequency threshold to be 0.99, so we can choose proper features to
 # decrease sparsity.
-bi_grams_dtm = removeSparseTerms(bi_grams_dtm, 0.99)
+bi_grams_dtm_9996 = removeSparseTerms(bi_grams_dtm, 0.9996)
+dim(bi_grams_dtm_9996)
 
 # Create a ngram matrix
-cleaned_review_dtm = data.frame(as.matrix(bi_grams_dtm))
+cleaned_review_dtm = data.frame(as.matrix(bi_grams_dtm_9996))
 cnames = colnames(cleaned_review_dtm)
 X = cbind(cleaned_review_dtm, stars)
 colnames(X) = c(cnames, "label")
@@ -55,10 +58,12 @@ X_valid = X[100001:116474,]
 # Fit linear model
 lin_mod = glm(label~., data = X_train)
 summary(lin_mod)
-pred =predict(lin_mod, newdata = data.frame(X_valid))
+# a <- summary(lin_mod)$coef
+pred =predict(lin_mod, newdata = data.frame(X_valid[,1:707]))
 yulaoban = function(x){
   min(5, max(1, x))
 }
 pred = sapply(pred, yulaoban)
 mean((pred - X_valid$label)^2)
-
+dim(X_train)
+dim(X_valid)
