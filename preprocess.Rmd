@@ -13,6 +13,8 @@ library(dplyr)
 library(plyr)
 require(doMC)
 registerDoMC(cores=4)
+library(zoo)
+library(rARPACK)
 
 ```
 ###Read 
@@ -68,4 +70,73 @@ business_n[,as.vector(which(c == "character"))]
 ###Write
 ```{r}
 write.csv(foo, file = "extended_business_train.csv")
+```
+
+```{r}
+user_reviews_train = read_csv("yelp_academic_dataset_review_train.csv")
+user_reviews_test = read_csv("yelp_academic_dataset_review_test.csv")
+```
+
+#validate
+```{r}
+user_reviews = user_reviews_train
+sample_index = sample(nrow(user_reviews))
+user_reviews = user_reviews %>% 
+  select(user_id, business_id, stars) %>% 
+  .[sample_index,]
+
+label = user_reviews[1:20000,"stars"]
+
+mean_stars = mean(user_reviews$"stars"[20001:116474])
+sd_stars = sd(user_reviews$"stars"[20001:116474])
+user_reviews[,"stars"] = (user_reviews[,"stars"] - mean_stars)/sd_stars
+user_reviews[1:20000, "stars"] = 0
+
+user_reviews_matrix = spread(data = user_reviews, key = business_id, value = stars, fill = 0)
+m = as.matrix(user_reviews_matrix[,2:ncol(user_reviews_matrix)])
+m_svd = svds(m, 10, nu = 10, nv = 10)
+u = m_svd$u
+d = diag(m_svd$d)
+v = t(m_svd$v)
+
+m_e = u %*% d %*% v
+test_index = 1:20000
+foo=function(ti){
+  bid = user_reviews$business_id[ti]
+  col_index = which(colnames(user_reviews_matrix) == bid) - 1
+  row_index = which(user_reviews_matrix$user_id == user_reviews$user_id[ti])
+  estimate = m_e[row_index, col_index - 1]
+  estimate
+}
+pred = unlist(mclapply(test_index, foo))
+mean_pred = mean(pred)
+sd_pred = sd(pred)
+(pred - mean_pred) / sd_pred * sd_stars + mean_stars
+```
+
+#test
+```{r}
+user_reviews_test = user_reviews_test %>% mutate(stars = NA)
+user_reviews = rbind(user_reviews_train, user_reviews_test)
+user_reviews = user_reviews %>% 
+  select(user_id, business_id, stars) %>% 
+  .[sample_index,]
+user_reviews_matrix = spread(data = user_reviews, key = business_id, value = stars)
+m = as.matrix(user_reviews_matrix[,2:ncol(user_reviews_matrix)])
+m = na.fill(m, 0)
+m = svd(m, nu = 100, nv = 100)
+u = m$u
+d = diag(m$d[1:100])
+v = t(m$v)
+m_e = u %*% d %*% v
+test_index = sample_index[sample_index > 116474]
+foo=function(ti){
+  bid = user_reviews$business_id[ti]
+  col_index = which(colnames(user_reviews_matrix) == bid)
+  row_index = which(user_reviews_matrix$user_id == user_reviews$user_id[ti])
+  estimate = m_e[row_index, col_index - 1]
+  estimate
+}
+foo(121405)
+pred = lapply(test_index, foo)
 ```
