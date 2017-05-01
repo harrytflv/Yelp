@@ -32,7 +32,7 @@ bi_grams <- lapply(splited_review, function(x, y) nGram(x, 2L))
 
 # Paste bigram together, so we can store the data as DocumentTermMatrix
 removeSpace <- function(token){
-  return(sapply(token, function(x)gsub(" ", "",x) ))
+  return(sapply(token, function(x) gsub(" ", "",x) ))
 }
 pasted_bi_grams <- lapply(bi_grams, removeSpace)
 pasted_bi_grams_corpus = Corpus(VectorSource(pasted_bi_grams))
