@@ -46,12 +46,16 @@ X_valid = X[100001:116474,]
 
 lin_mod = glm(label~., data = X_train)
 summary(lin_mod)
+<<<<<<< HEAD
 pred = predict(lin_mod, newdata = data.frame(X_valid))
+=======
+pred =predict(lin_mod, newdata = data.frame(X_train))
+>>>>>>> 4c0f3ecbc4b3ca2c1d4175e0e2182d921e80a109
 yulaoban = function(x){
-  min(5, max(1, x))
+  min(6, max(0, x))
 }
 pred = sapply(pred, yulaoban)
-mean(( pred - X_valid$label)^2)
+mean(( pred - X_train$label)^2)
 
 
 

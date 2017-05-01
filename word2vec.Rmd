@@ -1,0 +1,102 @@
+---
+title: "word2vec"
+author: "Wenjun Zeng"
+date: "4/30/2017"
+output: html_document
+---
+
+```{r}
+library(readr)
+library(stringr)
+library(tidyr)
+require(RJSONIO)
+library(dplyr)
+library(plyr)
+require(doMC)
+registerDoMC(cores=4)
+library(zoo)
+library(rARPACK)
+library(NLP)
+library(tm)
+```
+```{r}
+word2vec = read_csv("word2vec.csv")
+review_train <- read.csv('yelp_academic_dataset_review_train.csv')
+```
+```{r}
+# Read data and check dimension
+subset_index <- sample(c(1:length(review_train[,1])), 100000)
+review_train_subset <- review_train[subset_index,]
+
+reviews <- as.vector(review_train_subset$text)
+
+# Some custom cleaning function we might consider to add
+f <- function(x, pattern){gsub(pattern, "", x)}
+custom_transformation <- content_transformer(f)
+# tm_map(review_corpus, custom_transformation, "[[:digit:]]+")
+
+cleanCorpus = function(corpus){
+  review_corpus = tm_map(corpus, content_transformer(tolower))
+  review_corpus = tm_map(review_corpus, removeNumbers)
+  review_corpus = tm_map(review_corpus, removePunctuation)
+  review_corpus = tm_map(review_corpus, removeWords, c("the", "and", stopwords("english")))
+  review_corpus =  tm_map(review_corpus, stripWhitespace)
+}
+
+# Clean reviews using the above function
+review_corpus <- cleanCorpus(Corpus(VectorSource(reviews)))
+
+# Change type to DocumentTermMatrix
+review_dtm <- DocumentTermMatrix(review_corpus)
+dim(review_dtm) #6679
+
+# Set the frequency threshold to be 0.99, so we can choose proper features to
+# decrease sparsity.
+cleaned_review_dtm <- removeSparseTerms(review_dtm, 0.99)
+dim(cleaned_review_dtm) #759
+# inspect(cleaned_review_dtm_train[1:5,1:10])
+# cleaned_review_dtm_train
+# Do not run the following line if you computer do not have enough memory...
+# I trained a subset of review data of 10000 observations, which also failed.
+# Should use a much smaller subset.
+cleaned_review_dtm = as.matrix(cleaned_review_dtm)
+freq_words = colnames(cleaned_review_dtm)
+words = word2vec$`0`
+word2vec_n = word2vec %>% 
+  select(-`0`, -X1) %>% 
+  as.matrix() %>% 
+  t()
+colnames(word2vec_n) = words
+freq_word2vec_n = word2vec_n[,freq_words] %>% 
+  t()
+vec_cleaned_review_dtm =  cleaned_review_dtm %*% freq_word2vec_n
+```
+
+
+```{r}
+vec_cleaned_review_dtm = data.frame(vec_cleaned_review_dtm)
+cnames = colnames(vec_cleaned_review_dtm)
+X = cbind(vec_cleaned_review_dtm, review_train_subset$stars)
+colnames(X) = c(cnames, "label")
+m = mean(X[1:10000, "label"])
+sd = sd(X[1:10000, "label"])
+X_s = scale(X[1:10000,], T, T)
+X_train = data.frame(X_s[1:8000,])
+X_valid = X_s[8001:100000,]
+
+lin_mod = glm(label~., data = X_train)
+pred =predict(lin_mod, newdata = data.frame(X_valid))
+yulaoban = function(x){
+  x = x*sd + m
+  min(5, max(1, x))
+}
+pred = sapply(pred, yulaoban)
+ori_labels = (X_valid[,"label"])*sd + m
+mean((pred - ori_labels)^2)
+
+library(neuralnet)
+n=colnames(X_s)
+f <- as.formula(paste("label ~", paste(n[!n %in% "label"], collapse = " + ")))
+nn_mod = neuralnet(f, data = X_train, hidden=c(200), linear.output=T)
+pr.nn <- compute(nn_mod, X_valid)
+```
