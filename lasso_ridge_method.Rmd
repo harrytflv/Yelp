@@ -1,0 +1,79 @@
+---
+title: "STAT154HW3"
+author: "Xuran Zhang"
+date: "4/30/2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r}
+library(readr)
+library(glmnet)
+library(foreach)
+```
+
+
+```{r}
+wordbag = read.csv("wordbagCleanTrainAndTest.csv")[,-1]
+# dim(wordbag)
+# wordbag[,810]
+# wordbag$review_stars
+review_test <- read.csv('yelp_academic_dataset_review_test.csv')
+#dim(review_test)
+wordbag_train_X = as.matrix(wordbag[1:116474,-810])
+#View(wordbag_train_X)
+wordbag_train_Y = as.matrix(wordbag[1:116474,810])
+# View(wordbag_train_Y)
+wordbag_test_X = data.matrix(wordbag[116475: nrow(wordbag),-810])
+# dim(wordbag_test)
+# typeof(wordbag_test_X)
+# dim(wordbag_test_X)
+# class(wordbag_test_X)
+review_lasso = cv.glmnet(wordbag_train_X, wordbag_train_Y)
+# summary(lin_mod)
+pred =predict.cv.glmnet(review_lasso, wordbag_test_X)
+yulaoban = function(x){
+  min(5, max(1, x))
+}
+pred = sapply(pred, yulaoban)
+
+business_id = as.vector(review_test$business_id)
+wordbag_output = cbind(business_id, pred)
+colnames(wordbag_output) = c("business_id", "stars")
+write.csv(wordbag_output,"xuran_wordbag_lasso_output.csv")
+```
+
+
+```{r}
+review_ridge = cv.glmnet(wordbag_train_X, wordbag_train_Y,alpha = 0, lambda = 2.7^seq(-5,4,length.out = 100))
+# summary(lin_mod)
+pred =predict(review_ridge, wordbag_test_X)
+yulaoban = function(x){
+  min(5, max(1, x))
+}
+pred = sapply(pred, yulaoban)
+
+business_id = as.vector(review_test$business_id)
+wordbag_output = cbind(business_id, pred)
+colnames(wordbag_output) = c("business_id", "stars")
+write.csv(wordbag_output,"xuran_wordbag_ridge_output.csv")
+```
+
+```{r}
+library(pls)
+review_pca <- pcr(wordbag_train_Y ~ wordbag_train_X, scale = T, validationplon = "CV")
+
+# summary(lin_mod)
+pred =predict(review_pca, newdata = wordbag_test_X)
+yulaoban = function(x){
+  min(5, max(1, x))
+}
+pred = sapply(pred, yulaoban)
+
+business_id = as.vector(review_test$business_id)
+wordbag_output = cbind(business_id, pred)
+colnames(wordbag_output) = c("business_id", "stars")
+write.csv(wordbag_output,"xuran_wordbag_pca_output.csv")
+
+```

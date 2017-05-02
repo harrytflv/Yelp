@@ -1,0 +1,45 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+###Read Cleaned Data
+```{r}
+setwd("~/154data")
+library(clustMixType)
+review_train <- read.csv('review_train.csv')
+bus_train <- read.csv('extended_business_train.csv')
+
+```
+
+# Separate Factor Columns and Numeric Columns and Clean NAs
+```{r}
+factor_cols <- bus_train[,-c(1,2,3,4)]
+numeric_cols <- bus_train[,c(3,4)]
+
+factor_cols[] <- lapply(factor_cols, as.character)
+factor_cols[is.na(factor_cols)] <- "Na"
+factor_cols[] <- lapply(factor_cols, as.factor)
+cleaned_data <- cbind(numeric_cols, factor_cols)
+
+```
+
+#Clustering
+```{r}
+# grouped_data <- kproto(cleaned_data, k = 100)
+grouped_data <- kproto(cleaned_data, k = 1000)
+
+groups <- grouped_data$cluster
+cleaned_data <- cbind(bus_train[,c(1,2)], cleaned_data, groups)
+```
+
+###Merge Dataset Together and Produce Matrices Ready for Factorization
+```{r}
+whole_data <- merge(review_train, cleaned_data, by = "business_id")
+
+cluster5 <- whole_data[whole_data$groups == 5,
+                         c("user_id","business_id","stars.x")]
+
+user_reviews_matrix = spread(data = cluster5, key = business_id,
+                             value =stars.x, fill = 0)
+```
+

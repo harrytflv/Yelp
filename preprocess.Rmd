@@ -16,9 +16,18 @@ registerDoMC(cores=4)
 library(zoo)
 library(rARPACK)
 ```
-###Read 
+###Read and Clean
 ```{r}
-foo = read_csv("yelp_academic_dataset_business_train.csv")
+# setwd("~/154data")
+review_train <- read.csv('yelp_academic_dataset_review_train.csv')
+bus_train = read_csv("yelp_academic_dataset_business_train.csv")
+useful_review <- c("business_id", "user_id", "stars", "text",
+                    "useful", "funny", "cool")
+useful_bus <- c("categories", "attributes", "business_id", "stars",
+            "longitude", "latitude", "state", "city")
+
+foo <- bus_train[, useful]
+review_train <- review_train[,useful_review]
 ```
 
 ###Unlist categories
@@ -37,6 +46,7 @@ for (cat in cats){
   foo[cat] = str_detect(foo$categories, cat)
 }
 ```
+
 ###Unlist attributes
 ```{r}
 to_df = function(attr){
@@ -66,9 +76,11 @@ foo = cbind(foo, attrs)
 # c = sapply(business_n, class)
 # business_n[,as.vector(which(c == "character"))]
 ```
+
 ###Write
 ```{r}
-write.csv(foo, file = "extended_business_train.csv")
+write.csv(review_train, file = "review_train.csv", row.names = F)
+write.csv(foo[,-c(1,2)], file = "extended_business_train.csv", row.names = F)
 ```
 
 ```{r}

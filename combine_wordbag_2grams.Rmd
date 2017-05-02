@@ -1,0 +1,54 @@
+---
+title: "combine_wordbag_2grams"
+author: "Xuran Zhang"
+date: "5/1/2017"
+output: pdf_document
+---
+
+```{r}
+library(readr)
+```
+
+
+
+```{r}
+wordbag_data = read.csv("wordbagCleanTrainAndTest.csv")
+# delete first column and review_stars for wordbag_data
+wordbag_data = wordbag_data[,-c(1,811)]
+#  dim(wordbag_data)  138393    809
+grams_data = read.csv("review_2grams_TrainAndTest.csv")
+
+grams_data = grams_data[,-1]
+# dim(grams_data)  138393    951
+review_test <- read.csv('yelp_academic_dataset_review_test.csv')
+```
+
+```{r}
+combine_wordbag_grams = cbind(wordbag_data, grams_data)
+# View(grams_data)
+colnames(combine_wordbag_grams) = c(as.character(1:1759), "review_stars")
+X_train = combine_wordbag_grams[1:116474,]
+X_test = combine_wordbag_grams[116475:138393,]
+
+# Fit linear model
+lin_mod = glm(review_stars ~. , data = X_train)
+# summary(lin_mod)
+# a <- summary(lin_mod)$coef
+pred = predict(lin_mod, newdata = X_test)
+
+yulaoban = function(x){
+  min(5, max(1, x))
+}
+
+pred = sapply(pred, yulaoban)
+xuran_2grams_output = cbind(as.vector(review_test$business_id), pred)
+colnames(xuran_2grams_output) = c("business_id", "stars")
+write.csv(xuran_2grams_output, file = "xuran_combine_wordbag_grams_output.csv")
+```
+
+
+
+
+```{r}
+
+```

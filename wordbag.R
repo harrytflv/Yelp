@@ -5,7 +5,6 @@ library(tm)
 review_train <- read.csv('yelp_academic_dataset_review_train.csv')
 subset_index <- sample(c(1:length(review_train[,1])), nrow(review_train))
 review_train_subset <- review_train[subset_index,]
-
 reviews <- as.vector(review_train_subset$text)
 
 # Some custom cleaning function we might consider to add
@@ -47,7 +46,11 @@ X_valid = X[100001:116474,]
 
 lin_mod = glm(label~., data = X_train)
 summary(lin_mod)
+<<<<<<< HEAD
+pred = predict(lin_mod, newdata = data.frame(X_valid))
+=======
 pred =predict(lin_mod, newdata = data.frame(X_train))
+>>>>>>> 4c0f3ecbc4b3ca2c1d4175e0e2182d921e80a109
 yulaoban = function(x){
   min(6, max(0, x))
 }
