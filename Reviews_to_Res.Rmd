@@ -22,8 +22,8 @@ library(rARPACK)
 # reviews = read.csv("xuran_wordbag_lasso_output.csv")
 #####reviews = read.csv("xuran_wordbag_pca_output.csv")
 # reviews = read.csv("xuran_wordbag_ridge_output.csv")
-reviews = read.csv("xuran_combine_wordbag_grams_output.csv")
-
+# reviews = read.csv("xuran_combine_wordbag_grams_output.csv")
+reviews = read.csv("xuran_combine_wordbag_grams_rForest_output.csv")
 # reviews = read.csv("xuran_2grams_output.csv")
 # reviews = read.csv("xuran_2grams_lasso_output.csv")
 bus = read.csv("yelp_academic_dataset_business_test.csv")
@@ -55,5 +55,6 @@ colnames(review_output) = c("business_id", "stars")
 
 # write.csv(review_output,"review_2gram_Kaggle.csv")
 # write.csv(review_output,"xuran_2gram_lasso_Kaggle.csv")
-write.csv(review_output,"xuran_combine_wordbag_grams_glm_kaggle.csv")
+# write.csv(review_output,"xuran_combine_wordbag_grams_glm_kaggle.csv")
+write.csv(review_output,"xuran_combine_wordbag_grams_rForest_kaggle.csv")
 ```
