@@ -18,19 +18,23 @@ library(zoo)
 library(rARPACK)
 ```
 ```{r}
-reviews = read_csv("yelp_academic_dataset_review_test.csv")
-bus = read_csv("yelp_academic_dataset_business_test.csv")
+# reviews = read.csv("xuran_wordbag_output.csv")
+# reviews = read.csv("xuran_wordbag_lasso_output.csv")
+#####reviews = read.csv("xuran_wordbag_pca_output.csv")
+# reviews = read.csv("xuran_wordbag_ridge_output.csv")
+# reviews = read.csv("xuran_combine_wordbag_grams_output.csv")
+reviews = read.csv("xuran_combine_wordbag_grams_rForest_output.csv")
+# reviews = read.csv("xuran_2grams_output.csv")
+# reviews = read.csv("xuran_2grams_lasso_output.csv")
+bus = read.csv("yelp_academic_dataset_business_test.csv")
 ```
 
 ```{r}
-reviews = reviews %>% 
-  mutate(stars = 3) %>% 
-  select(user_id, business_id, stars)
 reviews_by_bus = reviews %>% 
-  spread(key = business_id, value = stars) %>% 
-  select(-user_id)
+  spread(key = business_id, value = stars)
 bus_star_mean = colMeans(reviews_by_bus, na.rm=TRUE) %>% 
   data.frame()
+
 
 match = function(bid){
   row_i = which(bid == rownames(bus_star_mean))
@@ -39,4 +43,18 @@ match = function(bid){
 }
 stars = sapply(bus$business_id, match)
 bus_output = cbind(bus, stars)
+# View((bus_output))
+
+review_output = cbind(as.vector(bus_output$business_id),bus_output$stars)
+colnames(review_output) = c("business_id", "stars")
+
+# write.csv(review_output,"review_output_Kaggle.csv")
+##### write.csv(review_output,"xuran_wordbag_pca_kaggle.csv")
+# write.csv(review_output,"xuran_wordbag_ridge_kaggle.csv")
+# write.csv(review_output,"xuran_wordbag_lasso_kaggle.csv")
+
+# write.csv(review_output,"review_2gram_Kaggle.csv")
+# write.csv(review_output,"xuran_2gram_lasso_Kaggle.csv")
+# write.csv(review_output,"xuran_combine_wordbag_grams_glm_kaggle.csv")
+write.csv(review_output,"xuran_combine_wordbag_grams_rForest_kaggle.csv")
 ```

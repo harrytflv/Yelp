@@ -71,9 +71,11 @@ yulaoban = function(x){
 }
 pred = sapply(pred, yulaoban)
 
-business_id = review_test$business_id
-wordbag_output = cbind(business_id,pred)
+business_id = as.vector(review_test$business_id)
+wordbag_output = cbind(business_id, pred)
+colnames(wordbag_output) = c("business_id", "stars")
 
+write.csv(wordbag_output,"xuran_wordbag_output.csv")
 
 
 

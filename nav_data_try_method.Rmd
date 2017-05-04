@@ -1,0 +1,51 @@
+---
+title: "nav_data"
+author: "Xuran Zhang"
+date: "5/1/2017"
+output: pdf_document
+---
+
+```{r}
+library(readr)
+library(pls)
+library(glmnet)
+```
+
+
+```{r}
+nav_data <- read.table(unz("nav.csv 3.zip", "nav.csv"), quote="\"", sep=",")
+# delete first column and review_stars for wordbag_data
+# View(nav_data)
+
+# dim(nav_data) 116473   1001
+
+
+train_train = nav_data[1:10000,]
+train_test = nav_data[10001:116474,]
+#train_train_X = train_train[,1:1000]
+#train_train_Y = train_train[,1001]
+#train_test_X = train_test[,1:1000]
+train_test_Y = train_test[,1001]
+```
+
+```{r}
+# Fit linear model
+lin_mod = glm(V1001 ~. , data = train_train)
+# lin_mod = pcr(V1001 ~. , data = train_train)
+# lin_mod = cv.glmnet(as.matrix(train_train_X), as.matrix(train_train_Y))
+# summary(lin_mod)
+# a <- summary(lin_mod)$coef
+pred = predict(lin_mod, newdata = train_test)
+# pred = predict(lin_mod, as.matrix(train_test_X))
+yulaoban = function(x){
+  min(5, max(1, x))
+}
+
+pred = sapply(pred, yulaoban) 
+
+mse = mean((pred -train_test_Y)^2) 
+mse 
+# xuran_2grams_output = cbind(as.vector(review_test$business_id), pred)
+# colnames(xuran_2grams_output) = c("business_id", "stars")
+# write.csv(xuran_2grams_output, file = "xuran_combine_wordbag_grams_output.csv")
+```
