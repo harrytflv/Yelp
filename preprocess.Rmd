@@ -19,15 +19,22 @@ library(rARPACK)
 ###Read and Clean
 ```{r}
 # setwd("~/154data")
-review_train <- read.csv('yelp_academic_dataset_review_train.csv')
+# review_train <- read.csv('yelp_academic_dataset_review_train.csv')
 bus_train = read_csv("yelp_academic_dataset_business_train.csv")
-useful_review <- c("business_id", "user_id", "stars", "text",
-                    "useful", "funny", "cool")
+bus_test = read_csv("yelp_academic_dataset_business_test.csv")
+# useful_review <- c("business_id", "user_id", "stars", "text",
+                    # "useful", "funny", "cool")
 useful_bus <- c("categories", "attributes", "business_id", "stars",
             "longitude", "latitude", "state", "city")
-
-foo <- bus_train[, useful]
-review_train <- review_train[,useful_review]
+useful_bus_test <- c("categories", "attributes", "business_id",
+            "longitude", "latitude", "state", "city")
+foo <- bus_train[, useful_bus]
+foo_test = bus_test[, useful_bus_test]
+foo_test = foo_test %>% mutate(stars = 0)
+#dim foo 2510 8
+#dim foo_test 440 8
+foo = rbind(foo, foo_test)
+# review_train <- review_train[,useful_review]
 ```
 
 ###Unlist categories
@@ -79,8 +86,9 @@ foo = cbind(foo, attrs)
 
 ###Write
 ```{r}
-write.csv(review_train, file = "review_train.csv", row.names = F)
-write.csv(foo[,-c(1,2)], file = "extended_business_train.csv", row.names = F)
+# write.csv(review_train, file = "review_train.csv", row.names = F)
+write.csv(foo[1:2510,-c(1,2)], file = "extended_business_train.csv", row.names = F)
+write.csv(foo[2511:(2510+440),-c(1,2)], file = "extended_business_test.csv", row.names = F)
 ```
 
 ```{r}
