@@ -17,7 +17,14 @@ registerDoMC(cores=4)
 library(zoo)
 library(rARPACK)
 ```
+
+
+
 ```{r}
+# This .Rmd include all methond that I use to get mean for all business_id to get 
+# the mean of stars for each business_id.
+
+
 # reviews = read.csv("xuran_wordbag_output.csv")
 # reviews = read.csv("xuran_wordbag_lasso_output.csv")
 #####reviews = read.csv("xuran_wordbag_pca_output.csv")
@@ -28,6 +35,7 @@ reviews = read.csv("xuran_combine_wordbag_grams_rForest_output.csv")
 # reviews = read.csv("xuran_2grams_lasso_output.csv")
 bus = read.csv("yelp_academic_dataset_business_test.csv")
 ```
+
 
 ```{r}
 reviews_by_bus = reviews %>% 
@@ -43,7 +51,6 @@ match = function(bid){
 }
 stars = sapply(bus$business_id, match)
 bus_output = cbind(bus, stars)
-# View((bus_output))
 
 review_output = cbind(as.vector(bus_output$business_id),bus_output$stars)
 colnames(review_output) = c("business_id", "stars")

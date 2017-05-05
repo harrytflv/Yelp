@@ -51,6 +51,10 @@ combine_wordbag_grams = cbind(wordbag_data, grams_3_data,grams_data,b)
 # colnames(combine_wordbag_grams) = c(as.character(1:1759), "review_stars")
 colnames(combine_wordbag_grams) = c(as.character(1:2657), "review_stars","business_id")
 write.csv(combine_wordbag_grams, "review_clean_wordbag_grams_3grams_TrainAndTest_withBusId.csv")
+
+
+combine_wordbag_grams <- (read.csv("review_clean_wordbag_grams_3grams_TrainAndTest_Clean.csv"))[,-1]
+dim(combine_wordbag_grams)
 X_train = combine_wordbag_grams[1:116474,]
 X_test = combine_wordbag_grams[116475:138393,]
 # try randoomForest can't get prediction, run one day 
@@ -74,28 +78,35 @@ plot(X.pca$sdev[1:50])
 
 
 ```{r}
-prcomp
-lin_mod = pcr(X_train_Y ~ as.matrix(X_train_X), scale = T, validation = "CV")
+#prcomp
+#lin_mod = pcr(X_train_Y ~ as.matrix(X_train_X), scale = T, validation = "CV")
 ```
+
 ```{r}
 # lin_mod = gbm(review_stars~., data = X_train, distribution = "adaboost", interaction.depth = 2, n.tree = 100, verbose = TRUE)
 # lin_mod <- randomForest(X_train_X, as.factor(X_train_Y),nodesize = 5000, maxnodes = 20,ntree = 500)
-pred = as.numeric(predict(lin_mod, newdata = X_test))
+#pred = as.numeric(predict(lin_mod, newdata = X_test))
 
 
 # # Fit linear model
-lin_mod = glm(review_stars ~. , data = X_train)
-pred = predict(lin_mod, newdata = X_test)
-yulaoban = function(x){
-  min(5, max(1, x))
-}
+boosting <- gbm(review_stars ~., data = X_train[,-2659], distribution = "gaussian", interaction.depth = 3, n.trees = 150, verbose = F)
+which(colnames(X_train) == "business_id")
+which(colnames(X_train) == "review_id")
+which(colnames(X_train) == "review_stars")
+which(is.na(X_train$review_stars ))
 
-pred = sapply(pred, yulaoban)
+#lin_mod = glm(review_stars ~. , data = X_train)
+pred = predict(lin_mod, newdata = X_test)
+#yulaoban = function(x){
+#  min(5, max(1, x))
+#}
+
+#pred = sapply(pred, yulaoban)
 xuran_2grams_output = cbind(as.vector(review_test$business_id), pred)
 colnames(xuran_2grams_output) = c("business_id", "stars")
 # write.csv(xuran_2grams_output, file = "xuran_combine_wordbag_grams_output.csv")
-write.csv(xuran_2grams_output, file = "xuran_combine_wordbag_grams_3grams_output.csv")
-reviews = read.csv("xuran_combine_wordbag_grams_3grams_output.csv")
+write.csv(xuran_2grams_output, file = "boosting.csv")
+reviews = read.csv("boosting.csv")
 bus = read.csv("yelp_academic_dataset_business_test.csv")
 
 reviews_by_bus = reviews %>% 
@@ -115,6 +126,6 @@ review_output = cbind(as.vector(bus_output$business_id),bus_output$stars)
 colnames(review_output) = c("business_id", "stars")
 
 # write.csv(review_output,"xuran_combine_wordbag_grams_rForest_kaggle.csv")
-write.csv(review_output,"xuran_combine_wordbag_grams_3grams_kaggle.csv")
+write.csv(review_output,"boosting_kaggle.csv")
 ```
 
