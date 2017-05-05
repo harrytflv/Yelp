@@ -57,7 +57,7 @@ words = all_words
 print('Data size', len(words))
 
 # Step 2: Build the dictionary and replace rare words with UNK token.
-vocabulary_size = 30000
+vocabulary_size = 3000
 
 def build_dataset(words, vocabulary_size):
   count = [['UNK', -1]]
@@ -175,8 +175,8 @@ tf.logging.set_verbosity(tf.logging.INFO)
 def cnn_model_fn(features, labels, mode):
   """Model function for CNN."""
 
-  input_one_hot = tf.one_hot(indices=tf.cast(features, tf.int32), depth=30000)
-  input_one_hot = tf.reshape(input_one_hot, [-1,128,1,30000])
+  input_one_hot = tf.one_hot(indices=tf.cast(features, tf.int32), depth=3000)
+  input_one_hot = tf.reshape(input_one_hot, [-1,128,1,3000])
   conv1a = tf.layers.conv2d(
       inputs=input_one_hot,
       filters=1000,

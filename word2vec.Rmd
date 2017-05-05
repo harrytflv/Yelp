@@ -20,7 +20,6 @@ library(NLP)
 library(tm)
 ```
 ```{r}
-word2vec = read_csv("word2vec.csv")
 review_train <- read.csv('yelp_academic_dataset_review_train.csv')
 ```
 ```{r}
@@ -60,6 +59,8 @@ dim(cleaned_review_dtm) #759
 # I trained a subset of review data of 10000 observations, which also failed.
 # Should use a much smaller subset.
 cleaned_review_dtm = as.matrix(cleaned_review_dtm)
+```
+```{r}
 freq_words = colnames(cleaned_review_dtm)
 words = word2vec$`0`
 word2vec_n = word2vec %>% 
@@ -74,29 +75,22 @@ vec_cleaned_review_dtm =  cleaned_review_dtm %*% freq_word2vec_n
 
 
 ```{r}
-vec_cleaned_review_dtm = data.frame(vec_cleaned_review_dtm)
-cnames = colnames(vec_cleaned_review_dtm)
-X = cbind(vec_cleaned_review_dtm, review_train_subset$stars)
+cleaned_review_dtm = data.frame(cleaned_review_dtm)
+cnames = colnames(cleaned_review_dtm)
+X = cbind(cleaned_review_dtm, review_train_subset$stars)
 colnames(X) = c(cnames, "label")
 m = mean(X[1:10000, "label"])
 sd = sd(X[1:10000, "label"])
 X_s = scale(X[1:10000,], T, T)
-X_train = data.frame(X_s[1:8000,])
-X_valid = X_s[8001:100000,]
-
+X_train = data.frame(X[1:8000,])
+X_valid = X[8001:10000,]
+```
+```{r}
 lin_mod = glm(label~., data = X_train)
 pred =predict(lin_mod, newdata = data.frame(X_valid))
 yulaoban = function(x){
-  x = x*sd + m
-  min(5, max(1, x))
+  min(5, max(1, round(x)))
 }
 pred = sapply(pred, yulaoban)
-ori_labels = (X_valid[,"label"])*sd + m
-mean((pred - ori_labels)^2)
-
-library(neuralnet)
-n=colnames(X_s)
-f <- as.formula(paste("label ~", paste(n[!n %in% "label"], collapse = " + ")))
-nn_mod = neuralnet(f, data = X_train, hidden=c(200), linear.output=T)
-pr.nn <- compute(nn_mod, X_valid)
+sum(pred == X_valid[,"label"])
 ```
